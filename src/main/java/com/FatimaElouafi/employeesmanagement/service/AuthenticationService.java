@@ -50,7 +50,27 @@ public class AuthenticationService {
         }
 
     }
+    public ResponseEntity<?> register(User request) {
+        try {
+            Optional<User> existingUser = userRepository.findUserByUsername(request.getUsername());
+            if (existingUser.isPresent()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Username already exists: " + request.getUsername());
+            }
 
+            User user = new User();
+
+            // Populate user fields
+            user.setUsername(request.getUsername());
+            user.setPassword(passwordEncoder.encode(request.getPassword()));
+
+            user = userRepository.save(user);
+            String token = jwtService.generateToken(user);
+            return ResponseEntity.ok(new AuthenticationResponse(token));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred: " + e.getMessage());
+        }
+    }
     public ResponseEntity<?> authenticate(User request) {
         try {
             authenticationManager.authenticate(
