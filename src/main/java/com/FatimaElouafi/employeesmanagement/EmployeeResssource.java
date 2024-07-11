@@ -15,37 +15,37 @@ import java.util.List;
 
 @RestController //to indicates that is's a controlle r class
 @RequestMapping("/admin/employee") //the requests to intercept by this contorller
+@CrossOrigin(origins = "http://localhost:4200")
 public class EmployeeResssource {
     private final EmployeeService employeeService;
     @Autowired
     public EmployeeResssource(EmployeeService employeeService){
         this.employeeService = employeeService;
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+    //@PreAuthorize("hasAuthority('ADMIN')") this serves for roles authorization , not the security the endpoints are already secured using the security configuration
     @GetMapping("/all")
     public ResponseEntity<List<Employee>> getAllEmployees(){
         List<Employee> employees = employeeService.findAllEmployees();
         return new ResponseEntity<>(employees, HttpStatus.OK);
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @GetMapping("/find/{id}")
     public ResponseEntity<Employee> getEmployeeById(@PathVariable("id") Long id){
         Employee employee = employeeService.findEmployee(id);
         return new ResponseEntity<>(employee, HttpStatus.OK);//we always return ResponseEntity containing the data returned and the HttpStatus
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @PostMapping("/addEmployee")
     public ResponseEntity<Employee> addEmployee(@RequestPart("employee") Employee employee, @RequestPart("file") MultipartFile file) throws IOException {
         Employee addedEmployee = employeeService.addEmployee(employee, file);
         return new ResponseEntity<>(addedEmployee, HttpStatus.CREATED);
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/updateEmployee")
     public ResponseEntity<Employee> updateEmployee(@RequestPart("employee") Employee employee, @RequestPart("file") MultipartFile file) throws IOException{
         Employee updatedEmployee = employeeService.updateEmployee(employee, file);
         return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
     }
-    @PreAuthorize("hasAuthority('ADMIN')")
+
     @DeleteMapping("/deleteEmployee/{id}")
     public ResponseEntity<?> deleteEmployee(@PathVariable("id") Long id){
         employeeService.deleteEmployee(id);

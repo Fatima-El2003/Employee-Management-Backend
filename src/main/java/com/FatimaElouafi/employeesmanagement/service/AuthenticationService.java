@@ -82,15 +82,19 @@ public class AuthenticationService {
             User user = userRepository.findUserByUsername(request.getUsername())
                     .orElseThrow(() -> new UsernameNotFoundException("User not found"));
             String token = jwtService.generateToken(user);
-            return ResponseEntity.ok(new AuthenticationResponse(token,user));
+            return ResponseEntity.ok(new AuthenticationResponse(token, user));
         } catch (AuthenticationException e) {
+            e.printStackTrace(); // Add this line to print stack trace
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
                     .body("Invalid username or password");
         } catch (Exception e) {
+            e.printStackTrace(); // Add this line to print stack trace
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
                     .body("An error occurred: " + e.getMessage());
         }
     }
+
+
 
     public ResponseEntity<?> delete(int id) {
         try {
@@ -107,9 +111,7 @@ public class AuthenticationService {
         } catch (Exception e) {
 
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body("An error occurred: " + e.getMessage());
+               .body("An error occurred: ");
         }
     }
-
-
 }
