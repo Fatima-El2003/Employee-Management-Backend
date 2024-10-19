@@ -34,7 +34,6 @@ public class AuthenticationService {
     public ResponseEntity<?> getAllUsers() {
         try {
             List<User> userList = userRepository.findAll();
-            System.out.println("rrrrrrrrrrrrrrrrrrrrrrrrrrrrrrr"+userList.toString());
 
             if (!userList.isEmpty()) {
 
