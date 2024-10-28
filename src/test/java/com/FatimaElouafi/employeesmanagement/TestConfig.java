@@ -16,7 +16,10 @@ public class TestConfig {
     @Primary
     public DataSource dataSource() {
         return new EmbeddedDatabaseBuilder()
+                .generateUniqueName(true)
                 .setType(EmbeddedDatabaseType.H2)
+                .setScriptEncoding("UTF-8")
+                .ignoreFailedDrops(true)
                 .build();
     }
 }
