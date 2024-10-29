@@ -1,5 +1,7 @@
 package com.FatimaElouafi.employeesmanagement;
 
+import com.FatimaElouafi.employeesmanagement.repo.UserRepository;
+import org.mockito.Mockito;
 import org.springframework.boot.test.context.TestConfiguration;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -21,5 +23,9 @@ public class TestConfig {
                 .setScriptEncoding("UTF-8")
                 .ignoreFailedDrops(true)
                 .build();
+    }
+    @Bean
+    public UserRepository userRepository() {
+        return Mockito.mock(UserRepository.class);
     }
 }
