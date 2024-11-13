@@ -1,21 +1,21 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: employees-management
+  name: employee-management
   labels:
-    app: employees-management
+    app: employee-management
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: employees-management
+      app: employee-management
   template:
     metadata:
       labels:
-        app: employees-management
+        app: employee-management
     spec:
       containers:
-      - name: employees-management
+      - name: employee-management
         image: fatimadev/employeesmanagement:latest
         ports:
         - containerPort: 8080
@@ -26,11 +26,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: employees-management-service
+  name: employee-management-svc
 spec:
   type: NodePort
   selector:
-    app: employees-management
+    app: employee-management
   ports:
   - port: 8080
     targetPort: 8080
